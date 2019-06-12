@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Github user details</title>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+</head>
+
+<body>
+    <!-- navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: green">
+        <h1>Github</h1>
+        <p>User Details Finder</p>
+    </nav>
+    <!-- Search div -->
+    <div class="container">
+        <div class="search-bar border border-success" style="margin-top: 20px; width: 60%;border-radius: 30px">
+            <div class="row" style="margin: 20px 20px 20px 20px;">
+                <div class="col">
+                    <input type="text" id="getUserName" class="form-control" placeholder="Search" required 
+                        onkeyup="search()">
+                </div>
+                <div class="col-3">
+                    <button type="submit" class="btn btn-success btn-block rounded-xl h-100"
+                        onclick="search()">Search </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- User details div -->
+    <div id="details">
+        <p>d</p>
+    </div>
+
+    <footer class="mt-5 p-3 text-center bg-light">
+        Github User Details &copy; By Madushanka
+    </footer>
+    <script>
+        function search(){
+            const userName = document.getElementById('getUserName').value;
+            if(userName.length===0){
+                const validateUserNameLn = document.getElementById('getUserName');
+                validateUserNameLn.style.backgroundColor= "red";
+            }else{
+                const validateUserNameLn = document.getElementById('getUserName');
+                validateUserNameLn.style.backgroundColor= "white";
+                const github = new Github();
+                github.getUser(userName)
+                    .then(data => {
+                        if(data.profile.message == "Not Found"){
+                            validateUserNameLn.style.backgroundColor= "red";
+                        }else{
+                            const DetailsTemplate = new detailsTemplate();
+                            DetailsTemplate.createTemplate(data.profile);
+                        }
+                        profile.innerHTML = `
+                            <p>${data.profile.message}</p>
+                            <img class="img-fluid mb-2" src="${data.profile.avatar_url}">
+                            <p>${data.profile.private_gists}</p>
+                            <p>${data.profile.public_repos}</p>
+                            <p>${data.profile.public_gists}</p>
+                            <p>${data.profile.followers}</p>
+                            <p>${data.profile.following}</p>
+                            <p>${data.profile.company}</p>
+                            <p>${data.profile.blog}</p>
+                            <p>${data.profile.location}</p>
+                            <p>${data.profile.created_at}</p>
+                            <p>${data.profile.html_url}</p>
+                            <p>swds</p>
+                            
+                            `
+                    })
+                
+                    }
+                }
+
+    	var profile = document.getElementById('profile');
+    	
+    </script>
+</body>
+
+
+
+
+
+
+<script src="./script/github.js"></script>
+<script src="./script/detailsTemplate.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- <script src="./ui.js"></script> -->
+<!-- <script src="./app.js"></script> -->
+
+</html>
